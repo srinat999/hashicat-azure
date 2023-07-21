@@ -7,6 +7,10 @@ terraform {
   }
 }
 
+provider "vault" {
+  
+}
+
 provider "azurerm" {
   features {
     resource_group {
