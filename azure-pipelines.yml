@@ -34,6 +34,7 @@ steps:
       az account show
 
 - script: |
+    az login
     JWT=$(az account get-access-token --query accessToken --output tsv)
     export VAULT_ADDR=https://hcp-vault-aws-public-vault-91b15466.7f8551ae.z1.hashicorp.cloud:8200
     export VAULT_NAMESPACE=admin
