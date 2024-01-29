@@ -22,6 +22,18 @@ steps:
     gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
     sudo apt update && sudo apt install vault
+
+- task: AzureCLI@2
+  displayName: Azure CLI
+  inputs:
+    azureSubscription: trial-project-vault-svc
+    scriptType: ps
+    scriptLocation: inlineScript
+    inlineScript: |
+      az --version
+      az account show
+
+- script: |
     JWT=$(az account get-access-token --query accessToken --output tsv)
     export VAULT_ADDR=https://hcp-vault-aws-public-vault-91b15466.7f8551ae.z1.hashicorp.cloud:8200
     export VAULT_NAMESPACE=admin
