@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: hashicorp/vault
 
 steps:
 - script: echo Hello, world!
@@ -16,4 +16,9 @@ steps:
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
+    curl -L https://aka.ms/InstallAzureCli | bash
+    JWT=$(az account get-access-token --query accessToken --output tsv)
+    export VAULT_ADDR=https://hcp-vault-aws-public-vault-91b15466.7f8551ae.z1.hashicorp.cloud:8200
+    export VAULT_NAMESPACE=admin
+    vault write auth/jwt/login role=adevops-pipeline-role jwt="${JWT}"
   displayName: 'Run a multi-line script'
